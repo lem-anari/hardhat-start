@@ -1,8 +1,13 @@
 {
   "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.0",
     "@nomiclabs/hardhat-ethers": "^2.2.1",
     "@openzeppelin/hardhat-upgrades": "^1.21.0",
     "ethers": "^5.0.0",
     "hardhat": "^2.12.3"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.8.0",
+    "@openzeppelin/contracts-upgradeable": "^4.8.0"
   }
 }
