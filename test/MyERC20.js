@@ -7,14 +7,11 @@ const {
 const { isCallTrace } = require("hardhat/internal/hardhat-network/stack-traces/message-trace");
   let myERC20;
   describe("MyERC20", async function () {
-    // We define a fixture to reuse the same setup in every test.
-    // We use loadFixture to run this setup once, snapshot that state,
-    // and reset Hardhat Network to that snapshot in every test.
     
       const MyERC20 = await ethers.getContractFactory("MyERC20");
       myERC20 = await MyERC20.deploy();
       await myERC20.deployed();
-      console.log('Address of token: ', myERC20.address);
+      console.log('Address of token: ', myERC20.address); // ok
       let from = '';
       let to = ['', ''];
       let amount = [500, 700];
@@ -23,21 +20,4 @@ const { isCallTrace } = require("hardhat/internal/hardhat-network/stack-traces/m
         console.log('transferMassive: ', myERC20.address);
       });
     });
-  
-   
-   /* describe("Transfers", function () {
-        it("Should transfer the funds to the owner", async function () {
-          const { lock, unlockTime, lockedAmount, owner } = await loadFixture(
-            deployOneYearLockFixture
-          );
-  
-          await time.increaseTo(unlockTime);
-  
-          await expect(lock.withdraw()).to.changeEtherBalances(
-            [owner, lock],
-            [lockedAmount, -lockedAmount]
-          );
-        });
-      });
-  });*/
   
