@@ -11,13 +11,13 @@ const { isCallTrace } = require("hardhat/internal/hardhat-network/stack-traces/m
       const MyERC20 = await ethers.getContractFactory("MyERC20");
       myERC20 = await MyERC20.deploy();
       await myERC20.deployed();
-      console.log('Address of token: ', myERC20.address); // ok
+      console.log('Address of token: ', myERC20.address); //ok
       let from = '';
       let to = ['', ''];
       let amount = [500, 700];
       it("Massive", async function(){
         await myERC20.transferMassive(from, to, amount);
-        console.log('transferMassive: ', myERC20.address);
+        console.log('transferMassive');
       });
     });
   
