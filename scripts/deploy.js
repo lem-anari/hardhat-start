@@ -8,20 +8,16 @@
 const hre = require("hardhat");
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
+  const ERC20 = await hre.ethers.getContractFactory("MyERC20");
+  const erc20 = await ERC20.deploy(unlockTime, { value: lockedAmount });
+  await erc20.deployed();
 
-  const lockedAmount = hre.ethers.utils.parseEther("1");
+  const Proxy = await hre.ethers.getContractFactory("Proxy");
 
-  const Lock = await hre.ethers.getContractFactory("MyERC20");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+  const proxy = await Proxy.deploy(erc20.address);
+  await proxy.deployed();
 
-  await lock.deployed();
-
-  console.log(
-    `Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
-  );
+  console.log("Proxy deployed to:", proxy.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
