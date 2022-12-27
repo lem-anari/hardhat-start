@@ -53,12 +53,13 @@ describe("Contract Version 1 test", function () {
   let user1;
   let user2;
   let user3;
+  
   it("Should return the greeting after deployment", async function () {
     [owner] = await ethers.getSigners();//5 //user1, user2, user3
     const MyERC20 = await ethers.getContractFactory("MyERC20");//, owner
     const contract = await upgrades.deployProxy(
       MyERC20, 
-      [MyERC20.name, MyERC20.symbol, MyERC20.initialSupply], 
+      ["Nastya", "NAS", 42], //MyERC20.name, MyERC20.symbol, MyERC20.initialSupply
       { initializer: 'initialize'});
       console.log('tesst');
     await contract.deployed();
@@ -66,9 +67,11 @@ describe("Contract Version 1 test", function () {
   it("Should return the function", async function () {
     // expect(await contract.greeting()).to.equal("Hello, upgradeable world!");
     let amount = [contract.mint(owner.address, 10000), contract.mint(owner.address, 20000), contract.mint(owner.address, 30000)];
+    console.log('check 0');
     let address = [user1.address, user2.address, user3.address];
-
+    console.log('check 1');
     let tx = await contract.transferArray(owner, address, amount); //allowance need?
+    console.log('check 2');
     // let tx = await myERC20.transferArray(owner, address, amount);
       //.connect(owner)
       
