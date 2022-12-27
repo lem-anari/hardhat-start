@@ -1,6 +1,7 @@
 require("@nomicfoundation/hardhat-toolbox");
 require('@openzeppelin/hardhat-upgrades');
-require("dotenv").config;
+const dotenv = require('dotenv');
+dotenv.config();
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
@@ -13,7 +14,7 @@ module.exports = {
       //Fktrc1lehfr
       chainId: 97,
       gasPrice: 20000000000,
-      accounts: [`0x10023bd2c1792f26c156efe051e3d0d3c00fd0e3065753b60e90a4b6bc9626e5`]//[`0x${process.env.MNEMONIC}`]
+      accounts: [`0x${process.env.PRIVATE_KEY}`]
     },
   },
   namedAccounts: {
