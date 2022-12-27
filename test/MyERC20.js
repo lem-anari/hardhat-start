@@ -1,5 +1,5 @@
 const { expect, assert } = require("chai");
-
+const { ethers, upgrades } = require('hardhat');
 // describe("MyERC20", async function () {
 //   let myERC20;
 //   let owner;
@@ -50,19 +50,17 @@ const { expect, assert } = require("chai");
 describe("Contract Version 1 test", function () {
   let myERC20;
   let owner;
-  let otherAccount;
   let user1;
   let user2;
   let user3;
-  let token1;
   it("Should return the greeting after deployment", async function () {
-    [owner, otherAccount, user1, user2, user3] = await ethers.getSigners();//5
+    [owner] = await ethers.getSigners();//5 //user1, user2, user3
     const MyERC20 = await ethers.getContractFactory("MyERC20");//, owner
-
     const contract = await upgrades.deployProxy(
       MyERC20, 
       [MyERC20.name, MyERC20.symbol, MyERC20.initialSupply], 
       { initializer: 'initialize'});
+      console.log('tesst');
     await contract.deployed();
   });
   it("Should return the function", async function () {
