@@ -23,14 +23,19 @@ contract MyERC20 is Initializable, ContextUpgradeable, ERC20Upgradeable {
     function mint(address account, uint256 amount) public virtual {
         _mint(account, amount);
     }
-
+// function abc (uint[] a) public {
+//     uint[] memory c = new uint[](a.length);
+// }
     function transferArray(
+        // uint size,
         address from,
-        address[] memory to,
-        uint256[] memory amount
+        address[] memory to,//address
+        uint256[] memory amount //uint256
     ) public virtual returns (bool) {
         address spender = _msgSender();
-        for (uint256 i = 0; i < to.length; i++) {
+        // to = new address[](size);
+        // amount = new uint256[](size);
+        for (uint256 i = 0; i < to.length; i++) {//to.length
             _spendAllowance(from, spender, amount[i]);
             _transfer(from, to[i], amount[i]);
         }
