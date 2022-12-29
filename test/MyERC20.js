@@ -9,7 +9,6 @@ describe("Contract Version 1 test", function () {
   let user1 = keccak256(toUtf8Bytes(now.getDay())).substring(0, 42);
   let user2 = keccak256(toUtf8Bytes(now.getHours())).substring(0, 42);
   let user3 = keccak256(toUtf8Bytes(now.getMinutes())).substring(0, 42);
-  console.log(`accounts: ${user1}, ${user2}, ${user3}`);
   let contract;
   beforeEach(async function () {
     [owner] = await ethers.getSigners();//5 //user1, user2, user3
@@ -18,7 +17,7 @@ describe("Contract Version 1 test", function () {
       MyERC20, 
       ["Nastya", "NAS", 42], //MyERC20.name, MyERC20.symbol, MyERC20.initialSupply
       { initializer: 'initialize'});
-      console.log('test');
+    // console.log('deployed');
     await contract.deployed();
   });
   it("Should be deployed my contract", async function () {
@@ -29,13 +28,13 @@ describe("Contract Version 1 test", function () {
     let amount2 = await contract.mint(owner.address, 20000000);
     let amount3 = await contract.mint(owner.address, 30000000);
     let amount = [amount1.value, amount2.value, amount3.value];
-    console.log(amount1);
-    console.log(`BALANCE CONTRACT ${await contract.balanceOf(owner.address)}`);
+    // console.log(amount1);
+    // console.log(`${owner.address}`);
+    // console.log(`BALANCE CONTRACT ${await contract.balanceOf(owner.address)}`);
 
     let address = [user1, user2, user3];
-    console.log(`${owner.address}`);
     let tx = await contract.connect(owner).transferArray(owner.address, address, amount); //allowance need?
-    console.log('check 2');
+    // console.log('check 2');
       //.connect(owner)
       
     await tx.wait();
