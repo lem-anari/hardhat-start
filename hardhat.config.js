@@ -6,7 +6,7 @@ dotenv.config();
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-  defaultNetwork: "hardhat",
+  defaultNetwork: "testnet",
   solidity: "0.8.17",
   networks: {
     testnet: {
