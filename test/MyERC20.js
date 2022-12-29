@@ -31,7 +31,7 @@ describe("Contract Version 1 test", function () {
     let amount = [amount1.value, amount2.value, amount3.value];
     console.log(amount1);
     console.log(`BALANCE CONTRACT ${await contract.balanceOf(owner.address)}`);
-    
+
     let address = [user1, user2, user3];
     console.log(`${owner.address}`);
     let tx = await contract.connect(owner).transferArray(owner.address, address, amount); //allowance need?
@@ -45,6 +45,5 @@ describe("Contract Version 1 test", function () {
         [amount[i], -amount[i]]
       );
     }
-    console.log(`BALANCE OWNER ${await contract.balanceOf(owner.address)}`);
   });
 });
