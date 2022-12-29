@@ -1,12 +1,13 @@
 require("@nomicfoundation/hardhat-toolbox");
-require('@openzeppelin/hardhat-upgrades');
-require('solidity-coverage');
-const dotenv = require('dotenv');
+require("@openzeppelin/hardhat-upgrades");
+require("solidity-coverage");
+const dotenv = require("dotenv");
 dotenv.config();
 
 /** @type import('hardhat/config').HardhatUserConfig */
+
+//Q: Never use tesnet as default network. Use localhost
 module.exports = {
-  defaultNetwork: "testnet",
   solidity: "0.8.17",
   networks: {
     testnet: {
@@ -16,12 +17,15 @@ module.exports = {
       //Fktrc1lehfr
       chainId: 97,
       gasPrice: 20000000000,
-      accounts: [`0x${process.env.PRIVATE_KEY}`]
+
+      //Q: Why 0x? Private key don't start with 0x
+      accounts: [`0x${process.env.PRIVATE_KEY}`],
     },
   },
+  //Q: It make sense only if you use harhdat-deploy or get named accounts
   namedAccounts: {
     deployer: {
-        default: 0, // here this will by default take the first account as deployer
+      default: 0, // here this will by default take the first account as deployer
     },
-},
+  },
 };
