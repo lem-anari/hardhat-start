@@ -1,5 +1,6 @@
 require("@nomicfoundation/hardhat-toolbox");
 require('@openzeppelin/hardhat-upgrades');
+require('solidity-coverage');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -10,6 +11,7 @@ module.exports = {
   networks: {
     testnet: {
       url: "https://quiet-blue-panorama.bsc-testnet.discover.quiknode.pro/307105036efae72d45d12dbdc26815509fa83b96/",
+      //change
       //https://data-seed-prebsc-1-s1.binance.org:8545
       //Fktrc1lehfr
       chainId: 97,

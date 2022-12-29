@@ -4068,7 +4068,7 @@ solidity-ast@^0.4.15:
   resolved "https://registry.npmjs.org/solidity-ast/-/solidity-ast-0.4.38.tgz"
   integrity sha512-e7gT6g8l8M2rAzH648QA3/IihCNy/anFoWyChVD+T+zfX4FjXbT8AO2DB3wG1iEmIBib9/+vD+GvTElWWpdw+w==
 
-solidity-coverage@^0.8.1:
+solidity-coverage@^0.8.1, solidity-coverage@^0.8.2:
   version "0.8.2"
   resolved "https://registry.npmjs.org/solidity-coverage/-/solidity-coverage-0.8.2.tgz"
   integrity sha512-cv2bWb7lOXPE9/SSleDO6czkFiMHgP4NXPj+iW9W7iEKLBk7Cj0AGBiNmGX3V1totl9wjPrT0gHmABZKZt65rQ==
