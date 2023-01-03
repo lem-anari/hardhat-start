@@ -8,6 +8,7 @@ import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20Metadat
 import "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
+import "hardhat/console.sol";
 
 
 contract MyERC20 is Initializable, ContextUpgradeable, ERC20Upgradeable {
@@ -24,15 +25,12 @@ contract MyERC20 is Initializable, ContextUpgradeable, ERC20Upgradeable {
         _mint(account, amount);
     }
     function transferArray(
-        // uint size,
-        address from,
-        address[] memory to,
+        address[] memory to, 
         uint256[] memory amount
     ) public virtual returns (bool) {
-        address spender = _msgSender();
         for (uint256 i = 0; i < to.length; i++) {
-            _spendAllowance(from, spender, amount[i]);
-            _transfer(from, to[i], amount[i]);
+            // console.log("CONSOLE", _msgSender(), to[i], amount[i]);
+            transfer(to[i], amount[i]);
         }
         return true;
     }
