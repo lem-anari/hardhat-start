@@ -1,6 +1,7 @@
 require("@nomicfoundation/hardhat-toolbox");
 require("@openzeppelin/hardhat-upgrades");
 require("solidity-coverage");
+require('hardhat-deploy');
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -14,6 +15,11 @@ module.exports = {
       chainId: 97,
       gasPrice: 20000000000,
       accounts: [`${process.env.PRIVATE_KEY}`],
+    },
+  },
+  namedAccounts: {
+    deployer: {
+      default: 0,
     },
   },
 };

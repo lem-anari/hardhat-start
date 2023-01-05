@@ -1,7 +1,6 @@
 const { expect, assert } = require("chai");
-const { keccak256 } = require("ethers/lib/utils");
-const { ethers, upgrades } = require("hardhat");
-const { toUtf8Bytes } = require("@ethersproject/strings");
+const { ethers, upgrades, deployments, getNamedAccounts } = require("hardhat");
+const { eth } = require("hardhat-deploy");
 
 describe("Contract Version 1 test", function () {
   let owner;
@@ -12,14 +11,22 @@ describe("Contract Version 1 test", function () {
   let amount = [20000000, 20000000, 30000000];
 
   beforeEach(async function () {
+    // [owner, user1, user2, user3] = await ethers.getSigners();
+    // const MyERC20 = await ethers.getContractFactory("MyERC20");
+    // contract = await upgrades.deployProxy(
+    //   MyERC20,
+    //   ["Nastya", "NAS", 42],
+    //   { initializer: "initialize" }
+    // );
     [owner, user1, user2, user3] = await ethers.getSigners();
-    const MyERC20 = await ethers.getContractFactory("MyERC20");
-    contract = await upgrades.deployProxy(
-      MyERC20,
-      ["Nastya", "NAS", 42],
-      { initializer: "initialize" }
-    );
-    await contract.deployed();
+    
+    
+      await deployments.fixture(['MyERC20']);
+      const { deployer } = await getNamedAccounts();
+      console.log(deployer);
+      contract = await ethers.getContractAt("MyERC20", deployer, owner);// there should be getContract func, but it couldn't find it on ethers
+      console.log('contract: ' + contract.address);
+      await contract.deployed(); // therefore here is an error that contact not deployed
   });
   describe("Deploying", function () {
     it("Should be deployed my contract", async function () {
@@ -31,8 +38,9 @@ describe("Contract Version 1 test", function () {
       let tokensToMint = amount.reduce(function(sum, elem) {
         return sum + elem;
       }, 0);
+      // console.log(ownerR);
       await contract.mint(owner.address, tokensToMint);
-      expect(await contract.balanceOf(owner.address)).to.equal(70000042);
+      expect(await contract.balanceOf(owner.address)).to.equal(70000000);
     
       let address = [user1.address, user2.address, user3.address];
       // console.log(await contract.balanceOf(owner.address));
