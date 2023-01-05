@@ -16,5 +16,3 @@ main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });
-//npx hardhat run --network hardhat scripts/deploy.js
-//hardhat --network mainnet sourcify //for verifing
