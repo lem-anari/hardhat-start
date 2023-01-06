@@ -35,3 +35,20 @@ contract MyERC20 is Initializable, ContextUpgradeable, ERC20Upgradeable {
         return true;
     }
 }
+
+contract MyERC20V2 is Initializable, ContextUpgradeable, ERC20Upgradeable {
+    
+    function mint(address account, uint256 amount) public virtual {
+        _mint(account, amount);
+    }
+    function transferArray(
+        address[] memory to, 
+        uint256[] memory amount
+    ) public virtual returns (bool) {
+        for (uint256 i = 0; i < to.length; i++) {
+            console.log("Here is CONSOLE for MyERC20V2", _msgSender(), to[i], amount[i]);
+            transfer(to[i], amount[i]);
+        }
+        return true;
+    }
+}
