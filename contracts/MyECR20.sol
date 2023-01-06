@@ -110,7 +110,7 @@ contract Factory {
         return address(beacon);
     }
 
-     function getVault(uint256 x) public view returns (address) {
+     function getMyERC20(uint256 x) public view returns (address) {
         return myERC20[x];
     }
 

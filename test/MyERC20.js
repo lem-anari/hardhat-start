@@ -24,9 +24,12 @@ describe("Contract Version 1 test", function () {
       factory = await ethers.getContractAt("Factory", Factory.address, owner);
       await factory.deployed();
       
-      console.log("get Beacon: " + await factory.getBeacon());
-      console.log("get Implement: " + await factory.getImplementation());
+      // console.log(factory);
       contr = await factory.getImplementation();
+      // console.log("get Beacon: " + await factory.getBeacon());
+      // console.log("get Implement: " + await factory.getImplementation());
+      // console.log("get MyERC20: " + await factory.getMyERC20(contr));
+      
       contract = await ethers.getContractAt("MyERC20V1", contr, owner);
       contract.initialize('MyERC20V1', 'MN', 3000);
       // return { factory }; how to use explain
