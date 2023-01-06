@@ -1,5 +1,5 @@
 const { expect } = require("chai");
-const { ethers, deployments, getNamedAccounts } = require("hardhat");
+const { ethers, upgrades, deployments, getNamedAccounts } = require("hardhat");
 
 describe("Contract Version 1 test", function () {
   let owner;
@@ -13,7 +13,9 @@ describe("Contract Version 1 test", function () {
       [owner, user1, user2, user3] = await ethers.getSigners();
       await deployments.fixture(['MyERC20']);
       const { deployer } = await getNamedAccounts();
-      contract = await ethers.getContract("MyERC20", deployer);
+      const contract1 = await ethers.getContract("MyERC20", deployer);
+      contract = await ethers.getContractAt("MyERC20", contract1.address, owner);
+      contract.initialize('MyERC20', 'MN', 3000);
       await contract.deployed();
   });
   describe("Deploying", function () {
@@ -27,7 +29,7 @@ describe("Contract Version 1 test", function () {
         return sum + elem;
       }, 0);
       await contract.mint(owner.address, tokensToMint);
-      expect(await contract.balanceOf(owner.address)).to.equal(70000000);
+      expect(await contract.balanceOf(owner.address)).to.equal(70003000);
     
       let address = [user1.address, user2.address, user3.address];
       // console.log(await contract.balanceOf(owner.address));
