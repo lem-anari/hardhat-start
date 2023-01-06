@@ -12,15 +12,23 @@ describe("Contract Version 1 test", function () {
 
   beforeEach(async function () {
       [owner, user1, user2, user3] = await ethers.getSigners();
-      await deployments.fixture(['MyERC20V1']);
+      await deployments.fixture(['Factory']);
       const { deployer } = await getNamedAccounts();
-      const contract1 = await ethers.getContract("MyERC20V1", deployer);
-      contract = await ethers.getContractAt("MyERC20V1", contract1.address, owner);
-      contract.initialize('MyERC20V1', 'MN', 3000);
-      await contract.deployed();
+      // await deployments.fixture(['MyERC20V1']);
+      // const { deployer } = await getNamedAccounts();
+      // const contract1 = await ethers.getContract("MyERC20V1", deployer);
+      // contract = await ethers.getContractAt("MyERC20V1", contract1.address, owner);
+      // contract.initialize('MyERC20V1', 'MN', 3000);
+      // await contract.deployed();
       const Factory = await ethers.getContract("Factory", deployer);
       factory = await ethers.getContractAt("Factory", Factory.address, owner);
       await factory.deployed();
+      
+      console.log("get Beacon: " + await factory.getBeacon());
+      console.log("get Implement: " + await factory.getImplementation());
+      contr = await factory.getImplementation();
+      contract = await ethers.getContractAt("MyERC20V1", contr, owner);
+      contract.initialize('MyERC20V1', 'MN', 3000);
       // return { factory }; how to use explain
   });
   describe("Deploying", function () {

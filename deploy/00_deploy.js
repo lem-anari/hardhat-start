@@ -8,6 +8,7 @@ module.exports = async ({ getNamedAccounts, deployments}) => {
       kind: 'beacon',
       log: true
      });
+     console.log('MyERC20V1.address: ' + MyERC20V1.address);
      const Factory = await deploy('Factory', {
       from: deployer,
       log: true,
