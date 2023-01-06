@@ -2,12 +2,18 @@
 module.exports = async ({ getNamedAccounts, deployments}) => {
     const {deploy} = deployments;
     const {deployer} = await getNamedAccounts();
-    const myERC20 = await deploy('MyERC20', {
+    const MyERC20V1 = await deploy('MyERC20V1', {
       from: deployer,
       proxy: true,
+      kind: 'beacon',
       log: true
+     });
+     const Factory = await deploy('Factory', {
+      from: deployer,
+      log: true,
+      args: [MyERC20V1.address]
      });
   };
   
-  module.exports.tags = ['MyERC20'];
+  module.exports.tags = ['MyERC20V1', 'Factory'];
   

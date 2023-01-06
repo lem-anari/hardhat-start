@@ -3,12 +3,12 @@ const { ethers, upgrades} = require('hardhat');
 
 async function main() {
   // Deploying
-  const ERC20 = await ethers.getContractFactory("MyERC20");
+  const ERC20 = await ethers.getContractFactory("MyERC20V1");
   const instance = await upgrades.deployProxy(ERC20, ['MyToken', 'MN', 1000000000],{
     initializer: "initialize"
   });
   await instance.deployed();
-  console.log('MyERC20 deployed: ', instance.address);
+  console.log('MyERC20V1 deployed: ', instance.address);
   
 }
 

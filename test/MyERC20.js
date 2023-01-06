@@ -7,20 +7,29 @@ describe("Contract Version 1 test", function () {
   let user2;
   let user3;
   let contract;
+  let factory;
   let amount = [20000000, 20000000, 30000000];
 
   beforeEach(async function () {
       [owner, user1, user2, user3] = await ethers.getSigners();
-      await deployments.fixture(['MyERC20']);
+      await deployments.fixture(['MyERC20V1']);
       const { deployer } = await getNamedAccounts();
-      const contract1 = await ethers.getContract("MyERC20", deployer);
-      contract = await ethers.getContractAt("MyERC20", contract1.address, owner);
-      contract.initialize('MyERC20', 'MN', 3000);
+      const contract1 = await ethers.getContract("MyERC20V1", deployer);
+      contract = await ethers.getContractAt("MyERC20V1", contract1.address, owner);
+      contract.initialize('MyERC20V1', 'MN', 3000);
       await contract.deployed();
+      const Factory = await ethers.getContract("Factory", deployer);
+      factory = await ethers.getContractAt("Factory", Factory.address, owner);
+      await factory.deployed();
+      // return { factory }; how to use explain
   });
   describe("Deploying", function () {
     it("Should be deployed my contract", async function () {
       expect(contract.address).to.be.properAddress;
+    });
+    it("Should be deployed my factory", async function () {
+      // const { factory } = ; how to use
+      expect(factory.address).to.be.properAddress;
     });
   });
   describe("Minting And Transfering", function () {
