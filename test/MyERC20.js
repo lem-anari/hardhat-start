@@ -14,12 +14,6 @@ describe("Contract Version 1 test", function () {
       [owner, user1, user2, user3] = await ethers.getSigners();
       await deployments.fixture(['Factory']);
       const { deployer } = await getNamedAccounts();
-      // await deployments.fixture(['MyERC20V1']);
-      // const { deployer } = await getNamedAccounts();
-      // const contract1 = await ethers.getContract("MyERC20V1", deployer);
-      // contract = await ethers.getContractAt("MyERC20V1", contract1.address, owner);
-      // contract.initialize('MyERC20V1', 'MN', 3000);
-      // await contract.deployed();
       const Factory = await ethers.getContract("Factory", deployer);
       factory = await ethers.getContractAt("Factory", Factory.address, owner);
       await factory.deployed();
@@ -29,9 +23,17 @@ describe("Contract Version 1 test", function () {
       // console.log("get Beacon: " + await factory.getBeacon());
       // console.log("get Implement: " + await factory.getImplementation());
       // console.log("get MyERC20: " + await factory.getMyERC20(contr));
+      let beaconAddress = await factory.getBeacon();
+      let beaconTry = await ethers.getContractAt("MyERC20Beacon", beaconAddress, owner);
+      //don't need to deploy beacon as it was deployed by factory and it's contained beacon address, therefore I could call getContractAt  
+      console.log(await beaconTry.implementation()); //and here I've got the address of my MyERC20V1 token, wow
+      //SORRY FOR COMMENTS))))))))))))))
+      let createdByFactory = await factory.create('TEST', 10, 1);
+      //there is the transaction, so how could i get `getMyERC20` function from factory?
+      await createdByFactory.wait();
+      contract = await ethers.getContractAt("MyERC20V1", contr, owner);//do we need it also?
+      contract.initialize('MyERC20V1', 'MN', 3000);//do we need it also?
       
-      contract = await ethers.getContractAt("MyERC20V1", contr, owner);
-      contract.initialize('MyERC20V1', 'MN', 3000);
       // return { factory }; how to use explain
   });
   describe("Deploying", function () {
