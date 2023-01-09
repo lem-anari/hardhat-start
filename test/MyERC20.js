@@ -21,12 +21,7 @@ describe("Contract Version 1 test", function () {
       const Factory = await ethers.getContract("Factory", deployer);
       factory = await ethers.getContractAt("Factory", Factory.address, owner);
       await factory.deployed();
-      
-      // console.log(factory);
-      // contr = await factory.getImplementation(); //nin
-      // console.log("get Beacon: " + await factory.getBeacon());
-      // console.log("get Implement: " + await factory.getImplementation());
-      // console.log("get MyERC20: " + await factory.getMyERC20(contr));
+
       let beaconAddress = await factory.getBeacon();
       let beaconTry = await ethers.getContractAt("MyERC20Beacon", beaconAddress, owner);
       //don't need to deploy beacon as it was deployed by factory and it's contained beacon address, therefore I could call getContractAt  
@@ -35,8 +30,6 @@ describe("Contract Version 1 test", function () {
       let createdByFactory = await factory.create('TEST', 10, 1);
       await createdByFactory.wait();
       console.log('created token from factory: ', await factory.getMyERC20(1));
-      // contract = await ethers.getContractAt("MyERC20V1", contr, owner);//do we need it also? nin
-      // contract.initialize('MyERC20V1', 'MN', 3000);//do we need it also? nin
       
       // return { factory }; how to use explain
   });
