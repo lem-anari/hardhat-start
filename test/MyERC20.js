@@ -12,12 +12,13 @@ describe("Contract Version 1 test", function () {
 
   beforeEach(async function () {
       [owner, user1, user2, user3] = await ethers.getSigners();
-      await deployments.fixture(['Factory']);
+      await deployments.fixture(['MyERC20V1']);
       const { deployer } = await getNamedAccounts();
       const Contr = await ethers.getContract("MyERC20V1", deployer);
       contract = await ethers.getContractAt("MyERC20V1", Contr.address, owner);//do we need it also?
       contract.initialize('MyERC20V1', 'MN', 3000);//do we need it also?
       await contract.deployed();
+      await deployments.fixture(['Factory']);
       const Factory = await ethers.getContract("Factory", deployer);
       factory = await ethers.getContractAt("Factory", Factory.address, owner);
       await factory.deployed();
