@@ -33,8 +33,8 @@ describe("Contract Version 1 test", function () {
       console.log(await beaconTry.implementation()); //and here I've got the address of my MyERC20V1 token, wow
       //SORRY FOR COMMENTS))))))))))))))
       let createdByFactory = await factory.create('TEST', 10, 1);
-      //there is the transaction, so how could i get `getMyERC20` function from factory?
       await createdByFactory.wait();
+      console.log('created token from factory: ', await factory.getMyERC20(1));
       // contract = await ethers.getContractAt("MyERC20V1", contr, owner);//do we need it also? nin
       // contract.initialize('MyERC20V1', 'MN', 3000);//do we need it also? nin
       
