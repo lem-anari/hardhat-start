@@ -14,12 +14,16 @@ describe("Contract Version 1 test", function () {
       [owner, user1, user2, user3] = await ethers.getSigners();
       await deployments.fixture(['Factory']);
       const { deployer } = await getNamedAccounts();
+      const Contr = await ethers.getContract("MyERC20V1", deployer);
+      contract = await ethers.getContractAt("MyERC20V1", Contr.address, owner);//do we need it also?
+      contract.initialize('MyERC20V1', 'MN', 3000);//do we need it also?
+      await contract.deployed();
       const Factory = await ethers.getContract("Factory", deployer);
       factory = await ethers.getContractAt("Factory", Factory.address, owner);
       await factory.deployed();
       
       // console.log(factory);
-      contr = await factory.getImplementation();
+      // contr = await factory.getImplementation(); //nin
       // console.log("get Beacon: " + await factory.getBeacon());
       // console.log("get Implement: " + await factory.getImplementation());
       // console.log("get MyERC20: " + await factory.getMyERC20(contr));
@@ -31,8 +35,8 @@ describe("Contract Version 1 test", function () {
       let createdByFactory = await factory.create('TEST', 10, 1);
       //there is the transaction, so how could i get `getMyERC20` function from factory?
       await createdByFactory.wait();
-      contract = await ethers.getContractAt("MyERC20V1", contr, owner);//do we need it also?
-      contract.initialize('MyERC20V1', 'MN', 3000);//do we need it also?
+      // contract = await ethers.getContractAt("MyERC20V1", contr, owner);//do we need it also? nin
+      // contract.initialize('MyERC20V1', 'MN', 3000);//do we need it also? nin
       
       // return { factory }; how to use explain
   });
