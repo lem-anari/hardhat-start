@@ -13,7 +13,7 @@ import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 import "hardhat/console.sol";
 
 
-contract MyERC20V1 is Initializable, ERC20Upgradeable {
+contract MyERC20V2 is Initializable, ERC20Upgradeable {
     function initialize(
         string memory name,
         string memory symbol,
@@ -35,8 +35,8 @@ contract MyERC20V1 is Initializable, ERC20Upgradeable {
         }
         return true;
     }
-    function sayHi() public virtual returns (bool) {
-        console.log('hi from 1 contract');
-        return true;
+    function returningString() public virtual returns (string memory){
+        console.log('yeah :)');
+        return 'yeah';
     }
 }

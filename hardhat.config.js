@@ -17,6 +17,12 @@ module.exports = {
       gasPrice: 20000000000,
       accounts: [`${process.env.PRIVATE_KEY}`],
     },
+    // hardhat: {
+    //   mining: {
+    //     auto: false,
+    //     interval: 5000
+    //   }
+    // }
   },
   namedAccounts: {
     deployer: {
