@@ -14,31 +14,30 @@ describe("Contract Version 1 test", function () {
 
   beforeEach(async function () {
       [owner, user1, user2, user3] = await ethers.getSigners();
-
-      await deployments.fixture(['MyERC20V1']);
       const { deployer } = await getNamedAccounts();
-      const Contr = await ethers.getContract("MyERC20V1", deployer);
-      contract = await ethers.getContractAt("MyERC20V1", Contr.address, owner);
-      await contract.initialize('MyERC20V1', 'MN', 3000);
-      await contract.deployed();
-
-    //  await deployments.fixture(['MyERC20V2']);
-    //  const Contr2 = await ethers.getContract("MyERC20V2", deployer);
-    //   contract2 = await ethers.getContractAt("MyERC20V2", Contr2.address, owner);
-    //   await contract2.initialize('MyERC20V2', 'MN2', 3000);
-    //   await contract2.deployed();
-      // console.log(await upgrades.upgradeProxy(contract.address, ));
-      // await upgrades.deployBeaconProxy(contract2.address);
+      
       await deployments.fixture(['Factory']);
       const Factory = await ethers.getContract("Factory", deployer);
-      factory = await ethers.getContractAt("Factory", contract.address, owner);//Factory.address
+      factory = await ethers.getContractAt("Factory", Factory.address, owner);//Factory.address
       await factory.deployed();
-      // console.log('factory: ', await factory.provider.getCode(factory.address));
 
-      let createdByFactory = await factory.create('Test', 'MTN', 10, 1);
-      await createdByFactory.wait();
-      // console.log('created token from factory: ', factory);
-      console.log('created token from factory: ', await factory.getMyERC20(1));
+      await (await factory.create('Test', 'MTN', 10, 1)).wait();
+      let beaconProxy = await factory.getMyERC20(1);
+      let beacon = await factory.getBeacon();
+      console.log('beacon: ', beacon);
+
+      await deployments.fixture(['MyERC20V2']);
+       const Contr2 = await ethers.getContract("MyERC20V2", deployer);
+        contract2 = await ethers.getContractAt("MyERC20V2", Contr2.address, owner);
+        await contract2.deployed();
+
+      await factory.upgrade(contract2.address);
+
+      contract = await contract2.attach(beaconProxy);
+
+      console.log(await contract.returningString());
+
+      // console.log('created token from factory: ', await factory.getMyERC20(1));
       // let factoriedContractAddr = await factoryMy.getMyERC20(1);
       // let contract = await ethers.getContractAt("TEST", factoriedContractAddr, owner);
       // await contract.initialize('TEST', 'TN', 3000);

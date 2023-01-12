@@ -11,10 +11,10 @@ contract Factory {
 
     mapping(uint256 => address) private myERC20;
     
-    address public beacon;
+    UpgradeableBeacon public beacon;
 
-    constructor(address _vLogic) {
-        beacon = _vLogic;
+    constructor(address intiBlueprint) {
+        beacon = new UpgradeableBeacon(intiBlueprint);
     } 
 
     function create(string memory _name, string memory _symbol, uint256 _vaLue,uint256 x) external returns (address) {//
@@ -24,6 +24,12 @@ contract Factory {
         myERC20[x] = address(proxy);
         return address(proxy);
     }
+
+
+    function upgrade(address intiBlueprint) external {
+        beacon.upgradeTo(intiBlueprint); 
+    }
+    
     //https://medium.com/coinmonks/how-to-create-a-beacon-proxy-3d55335f7353
 
     // function getImplementation() public view returns (address) {
