@@ -3,13 +3,8 @@
 
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
-
-
 import "hardhat/console.sol";
 
 
@@ -35,8 +30,12 @@ contract MyERC20V1 is Initializable, ERC20Upgradeable {
         }
         return true;
     }
-    function sayHi() public virtual returns (bool) {
-        console.log('hi from 1 contract');
-        return true;
+    uint n;
+    fallback() external {
+        n = 0;
     }
+    // function sayHi() public virtual returns (bool) {
+    //     console.log('hi from 1 contract');
+    //     return true;
+    // }
 }

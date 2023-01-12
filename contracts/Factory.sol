@@ -4,35 +4,31 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/proxy/beacon/BeaconProxy.sol";
-import "./MyERC20Beacon.sol";
+import "@openzeppelin/contracts/proxy/beacon/UpgradeableBeacon.sol"; 
 import "./MyECR20.sol";
 
 contract Factory {
 
     mapping(uint256 => address) private myERC20;
     
-    MyERC20Beacon immutable beacon;
+    address public beacon;
 
     constructor(address _vLogic) {
-        beacon = new MyERC20Beacon(_vLogic);
-    }
-    // address private beacon;
+        beacon = _vLogic;
+    } 
 
-    // constructor(address _vLogic) {
-    //     beacon = _vLogic;
-    // } 
-
-    function create(string calldata _name, uint256 _vaLue, uint256 x) external returns (address) {
-        BeaconProxy proxy = new BeaconProxy(address(beacon), 
-            abi.encodeWithSelector(MyERC20V1(address(0)).initialize.selector, _name, _vaLue)
-        );
+    function create(string memory _name, string memory _symbol, uint256 _vaLue,uint256 x) external returns (address) {//
+        // UpgradeableBeacon upgrad = new UpgradeableBeacon(address(beacon));
+        // BeaconProxy proxy = new BeaconProxy(address(upgrad), abi.encodeWithSelector(MyERC20V1(address(0)).initialize.selector, _name, _symbol, _vaLue)); //
+        BeaconProxy proxy = new BeaconProxy(address(beacon), abi.encodeWithSelector(MyERC20V1(address(0)).initialize.selector, _name, _symbol, _vaLue)); //
         myERC20[x] = address(proxy);
         return address(proxy);
     }
+    //https://medium.com/coinmonks/how-to-create-a-beacon-proxy-3d55335f7353
 
-    function getImplementation() public view returns (address) {
-        return beacon.implementation(); 
-    }
+    // function getImplementation() public view returns (address) {
+    //     return beacon.implementation(); 
+    // } 
 
      function getBeacon() public view returns (address) {
         return address(beacon);
