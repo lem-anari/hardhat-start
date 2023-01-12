@@ -15,12 +15,7 @@ contract Factory {
 
     constructor(address _vLogic) {
         beacon = new MyERC20Beacon(_vLogic);
-    }
-    // address private beacon;
-
-    // constructor(address _vLogic) {
-    //     beacon = _vLogic;
-    // } 
+    } 
 
     function create(string calldata _name, uint256 _vaLue, uint256 x) external returns (address) {
         BeaconProxy proxy = new BeaconProxy(address(beacon), 
@@ -32,7 +27,7 @@ contract Factory {
 
     function getImplementation() public view returns (address) {
         return beacon.implementation(); 
-    }
+    } 
 
      function getBeacon() public view returns (address) {
         return address(beacon);

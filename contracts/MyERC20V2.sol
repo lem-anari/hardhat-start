@@ -35,7 +35,7 @@ contract MyERC20V2 is Initializable, ERC20Upgradeable {
         }
         return true;
     }
-    function returningString() public virtual returns (string memory){
+    function returningString() public view virtual returns (string memory){
         console.log('yeah :)');
         return 'yeah';
     }

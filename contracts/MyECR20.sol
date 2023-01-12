@@ -35,8 +35,8 @@ contract MyERC20V1 is Initializable, ERC20Upgradeable {
         }
         return true;
     }
-    function sayHi() public virtual returns (bool) {
+    function sayHi() view public returns (uint256) {
         console.log('hi from 1 contract');
-        return true;
+        return 204;
     }
 }
