@@ -10,6 +10,7 @@ describe("Contract Version 1 test", function () {
   let contract2;
   let factory;
   let beacon;
+  let proxy1;
   let proxy1_accessor;
   let amount = [20000000, 20000000, 30000000];
 
@@ -22,27 +23,23 @@ describe("Contract Version 1 test", function () {
       await beacon.deployed();
       console.log("Beacon deployed to:", beacon.address);
 
-      const proxy1 = await upgrades.deployBeaconProxy(beacon, contract, ['My', 'MN', 3000]);
+      proxy1 = await upgrades.deployBeaconProxy(beacon, contract, ['My', 'MN', 3000]);
       await proxy1.deployed();
       console.log("Proxy1 deployed to:", proxy1.address);
 
-      const proxy2 = await upgrades.deployBeaconProxy(beacon, contract, ['My2', 'MN2', 4000]);
-      await proxy2.deployed();
-      console.log("Proxy2 deployed to:", proxy2.address);
-
       proxy1_accessor = contract.attach(proxy1.address);
-      const proxy2_accessor = contract.attach(proxy2.address);
-
       
   });
   describe("Testing", function () {
     it("Should be tessted my contract", async function () {
-        const value = await proxy1_accessor.sayHi()
+        const value = await proxy1_accessor.sayHi();
         expect(value.toString()).to.equal('204');
-        await upgrades.upgradeBeacon(beacon, contract2);
+        let ttt = await upgrades.upgradeBeacon(beacon, contract2);
+        proxy1_accessor = contract2.attach(proxy1.address);
+
         const setValueTx = await proxy1_accessor.returningString();
-        await setValueTx.wait();
-        expect(value.toString()).to.equal('yeah');
+        // await setValueTx.wait();
+        expect(setValueTx.toString()).to.equal('yeah');
     });
     it("Should be deployed my factory", async function () {
       

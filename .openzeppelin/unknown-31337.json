@@ -21,13 +21,13 @@
       "kind": "beacon"
     },
     {
-      "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
-      "txHash": "0x03771aec1e6a3c92c2db6955d46318b60ef9404be22de325b9780d7766e46e74",
+      "address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      "txHash": "0xe8b41daef56263d854ff45c74a88df176b16bd4370e3852b8429b63381915581",
       "kind": "beacon"
     },
     {
-      "address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
-      "txHash": "0xe8b41daef56263d854ff45c74a88df176b16bd4370e3852b8429b63381915581",
+      "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+      "txHash": "0x03771aec1e6a3c92c2db6955d46318b60ef9404be22de325b9780d7766e46e74",
       "kind": "beacon"
     }
   ],
@@ -153,8 +153,8 @@
       }
     },
     "be776d5b428f3d9a5d544df0a979da4029f08517d3958307b847484bf7d71023": {
-      "address": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
-      "txHash": "0x5c3cbeb49ca325b05b9e0f0e8f4668f48412c75de1051b9bc0fc71d46a4568b2",
+      "address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      "txHash": "0xe81e8a20158843c84f117d872da719db9c74c11605b0e5cf6ea2babd03ca215b",
       "layout": {
         "solcVersion": "0.8.17",
         "storage": [
