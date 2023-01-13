@@ -17,10 +17,8 @@ contract Factory {
         beacon = new UpgradeableBeacon(intiBlueprint);
     } 
 
-    function create(string memory _name, string memory _symbol, uint256 _vaLue,uint256 x) external returns (address) {//
-        // UpgradeableBeacon upgrad = new UpgradeableBeacon(address(beacon));
-        // BeaconProxy proxy = new BeaconProxy(address(upgrad), abi.encodeWithSelector(MyERC20V1(address(0)).initialize.selector, _name, _symbol, _vaLue)); //
-        BeaconProxy proxy = new BeaconProxy(address(beacon), abi.encodeWithSelector(MyERC20V1(address(0)).initialize.selector, _name, _symbol, _vaLue)); //
+    function create(string memory _name, string memory _symbol, uint256 _vaLue,uint256 x) external returns (address) {
+        BeaconProxy proxy = new BeaconProxy(address(beacon), abi.encodeWithSelector(MyERC20V1(address(0)).initialize.selector, _name, _symbol, _vaLue));
         myERC20[x] = address(proxy);
         return address(proxy);
     }
@@ -29,8 +27,6 @@ contract Factory {
     function upgrade(address intiBlueprint) external {
         beacon.upgradeTo(intiBlueprint); 
     }
-    
-    //https://medium.com/coinmonks/how-to-create-a-beacon-proxy-3d55335f7353
 
     // function getImplementation() public view returns (address) {
     //     return beacon.implementation(); 
