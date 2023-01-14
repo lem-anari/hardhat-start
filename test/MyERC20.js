@@ -10,6 +10,7 @@ describe("Contract Version 1 test", function () {
   let contract2;
   let factory;
   let factoryMy;
+  let tokensToMint;
   
   let amount = [20000000, 20000000, 30000000];
 
@@ -52,7 +53,7 @@ describe("Contract Version 1 test", function () {
   });
   describe("Minting And Transfering", function () {
     it("Should be minted and transfered tokens", async function () {
-      let tokensToMint = amount.reduce(function(sum, elem) {
+      tokensToMint = amount.reduce(function(sum, elem) {
         return sum + elem;
       }, 0);
 
@@ -77,12 +78,17 @@ describe("Contract Version 1 test", function () {
   });
   describe("Minting", function () {
     it("Should be minted tokens", async function () {
-      let tokensToMint = amount.reduce(function(sum, elem) {
+      tokensToMint = amount.reduce(function(sum, elem) {
         return sum + elem;
       }, 0);
       await contract.mint(owner.address, tokensToMint);
       expect(await contract.balanceOf(owner.address)).to.equal(70000000);
     });
+    it("should NOT be possible to addToken token to contract by NOT minter", async function () {
+      await expect(contract.connect(user3).mint(user3.address, tokensToMint)).to.be.revertedWith(
+          `AccessControl: account ${(user3.address).toLowerCase()} is missing role ${await contract.MINTER_ROLE()}`
+      );
+  });
   });
   // describe("Transfering", function () {
   //   before(async function (){
