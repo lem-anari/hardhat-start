@@ -17,8 +17,8 @@ contract Factory {
         beacon = new UpgradeableBeacon(intiBlueprint);
     } 
 
-    function create(string memory _name, string memory _symbol, uint256 _vaLue,uint256 x) external returns (address) {
-        BeaconProxy proxy = new BeaconProxy(address(beacon), abi.encodeWithSelector(MyERC20V1(address(0)).initialize.selector, _name, _symbol, _vaLue));
+    function create(string memory _name, string memory _symbol, uint256 _vaLue, address _minter, uint256 x) external returns (address) {
+        BeaconProxy proxy = new BeaconProxy(address(beacon), abi.encodeWithSelector(MyERC20V1(address(0)).initialize.selector, _name, _symbol, _vaLue, _minter));
         myERC20[x] = address(proxy);
         return address(proxy);
     }
