@@ -3,35 +3,40 @@
 
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import "hardhat/console.sol";
 
 
-contract MyERC20 is Initializable, ContextUpgradeable, ERC20Upgradeable {
+contract MyERC20 is Initializable, ERC20Upgradeable, AccessControlUpgradeable{
+
+    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     function initialize(
         string memory name,
         string memory symbol,
-        uint256 initialSupply
+        uint256 initialSupply,
+        address minter
     ) public virtual initializer {
         __ERC20_init(name, symbol);
         _mint(_msgSender(), initialSupply);
+        _grantRole(MINTER_ROLE, minter);
     }
 
-    function mint(address account, uint256 amount) public virtual {
-        _mint(account, amount);
+    function mint(address account, uint256 amount) public virtual onlyRole(MINTER_ROLE) {
+        _mint(account, amount); 
     }
     function transferArray(
         address[] memory to, 
         uint256[] memory amount
     ) public virtual returns (bool) {
         for (uint256 i = 0; i < to.length; i++) {
-            // console.log("CONSOLE", _msgSender(), to[i], amount[i]);
             transfer(to[i], amount[i]);
         }
+        return true;
+    }
+     function sayHi() public virtual returns (bool) {
+        console.log('hi from 1 contract');
         return true;
     }
 }
