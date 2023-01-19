@@ -11,32 +11,36 @@ import "hardhat/console.sol";
 
 contract MyERC20 is Initializable, ERC20Upgradeable, AccessControlUpgradeable{
 
+    uint8 public version;
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
+
     function initialize(
         string memory name,
         string memory symbol,
         uint256 initialSupply,
-        address minter
+        // uint8 version,
+        address minter 
     ) public virtual initializer {
         __ERC20_init(name, symbol);
         _mint(_msgSender(), initialSupply);
         _grantRole(MINTER_ROLE, minter);
     }
 
-    function mint(address account, uint256 amount) public virtual onlyRole(MINTER_ROLE) {
+    function mint(address account, uint256 amount) public onlyRole(MINTER_ROLE) {
         _mint(account, amount); 
     }
     function transferArray(
         address[] memory to, 
         uint256[] memory amount
-    ) public virtual returns (bool) {
+    ) public returns (bool) {
         for (uint256 i = 0; i < to.length; i++) {
             transfer(to[i], amount[i]);
         }
         return true;
     }
-     function sayHi() public virtual returns (bool) {
-        console.log('hi from 1 contract');
-        return true;
-    }
+     function sayHi() public returns (uint8) { //rename to returningString
+        version = 1; 
+        // console.log('hi from 1 contract');
+        return version; 
+    } 
 }

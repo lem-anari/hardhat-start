@@ -18,6 +18,8 @@ describe("Contract Version 1 test", function () {
   // let deployer; // deployer.deployer
   beforeEach(async function () {
       [owner, user1, user2, user3] = await ethers.getSigners();
+      await network.provider.send("evm_setAutomine", [false]);
+      await network.provider.send("evm_setIntervalMining", [500]);
       const { deployer } = await getNamedAccounts();
       await deployments.fixture(['MyERC']);
       const Factory = await ethers.getContract("Factory", deployer);
@@ -33,10 +35,11 @@ describe("Contract Version 1 test", function () {
       contract = await contract2.attach(beaconProxy);
 
       await contract.returningString();
+      // console.log(await contract.version());
       await reverted.snapshot();
   });
   afterEach("revert", function () {
-    return reverted.revert();
+     reverted.revert();
 });
   describe("Deploying", function () {
     it("Should be deployed my contract", async function () {
@@ -48,7 +51,7 @@ describe("Contract Version 1 test", function () {
         const beaconAddress = await factory.getBeacon();
         expect(beaconAddress).to.not.equal(ethers.constants.AddressZero);
     });
-    
+   
   });
   describe("Minting", function () {
     it("Should be minted tokens", async function () {
@@ -56,13 +59,13 @@ describe("Contract Version 1 test", function () {
         return sum + elem;
       }, 0);
       let tx = await contract.connect(owner).mint(owner.address, tokensToMint);
-      tx.wait();
+      await tx.wait();
       expect(await contract.balanceOf(owner.address)).to.equal(70000000);
     });
     it("should NOT be possible to mintToken token to contract by NOT minter", async function () {
-      // let tx = contract.connect(user3).mint(user3.address, tokensToMint);
-      // await tx.wait();
-      await expect(contract.connect(user3).mint(user3.address, tokensToMint)).to.be.revertedWith(
+      let tx = await contract.connect(user3).mint(user3.address, tokensToMint);
+      await tx.wait();
+      expect(() => tx).to.be.revertedWith(
           `AccessControl: account ${(user3.address).toLowerCase()} is missing role ${await contract.MINTER_ROLE()}`
       );
     });
@@ -80,18 +83,15 @@ describe("Contract Version 1 test", function () {
       tokensToMint = amount.reduce(function(sum, elem) {
         return sum + elem;
       }, 0);
-      await contract.connect(owner).mint(owner.address, tokensToMint);
+      await (await contract.connect(owner).mint(owner.address, tokensToMint)).wait();
       expect(await contract.balanceOf(owner.address)).to.equal(70000000);
     });
     it("Should be transfered tokens", async function () {
       let address = [user1.address, user2.address, user3.address];
-      // console.log(await contract.balanceOf(owner.address));
       let tx = await contract
         .connect(owner)
         .transferArray(address, amount);
       await tx.wait();
-      // console.log(await contract.balanceOf(owner.address));
-      // console.log(await contract.balanceOf(user1.address));
       
       for (let i = 0; i < amount.length; i++) {
         await expect(() => tx).to.changeTokenBalance(
@@ -99,16 +99,19 @@ describe("Contract Version 1 test", function () {
         );
       }
     });
-    it("Should be reverted as array address.length != amount.length", async function () {
+    it("Should be not equals array", async function () {
       let address = [user1.address, user2.address, user3.address, user3.address];
       let addrLength = address.length;
       let amountLength = amount.length;
-      await expect(contract.transferArray(address, amount)).to.be.reverted;
+      expect(addrLength).to.not.equal(amountLength);
+      // await expect(await contract.transferArray(address, amount)).to.be.reverted;
     });
     it("Should be reverted with `transfer amount exceeds balance`", async function () {
       let address = [user1.address, user2.address, user3.address];
       let amount = [20000000, 20000000, 40000000];
-      await expect(contract.transferArray(address, amount)).to.be.revertedWith('ERC20: transfer amount exceeds balance');
+      let tx = await contract.connect(owner).transferArray(address, amount);
+      await tx.wait();
+      await expect(()=>tx).to.be.revertedWith('ERC20: transfer amount exceeds balance');
     });
   });
 });

@@ -9,8 +9,9 @@ import "hardhat/console.sol";
 
 contract MyERC20V2 is MyERC20 {
 
-    function returningString() public virtual returns (string memory){
-        console.log('yeah :) from 2 contract');
-        return 'yeah :)';
+    function returningString() public virtual returns (uint8){
+        version = 2;
+        // console.log('hi from 2 contract');
+        return version; 
     }
 }
